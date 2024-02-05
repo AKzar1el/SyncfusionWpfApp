@@ -1,0 +1,73 @@
+﻿<syncfusion:ChromelessWindow
+    x:Class="SyncfusionWpfApp.Views.ShellWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:syncfusionskin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:local="clr-namespace:SyncfusionWpfApp.Views"
+    Style="{StaticResource CustomMetroWindow}"
+    mc:Ignorable="d"
+    MinWidth="500"
+    MinHeight="350"
+    x:Name="window"
+    LeftHeaderItemsSource="{DynamicResource rightHeaderItems}"
+    syncfusionskin:SfSkinManager.Theme="{syncfusionskin:SkinManagerExtension ThemeName=Windows11Light}">
+    <syncfusion:ChromelessWindow.Resources>
+        <local:MyObservableCollection x:Key="rightHeaderItems">
+            <Grid>
+                <syncfusion:TabControlExt
+                    x:Name="myTabControlExt"
+                    AllowDragDrop="False"
+                    CloseButtonType="Individual"
+                    IsNewButtonEnabled="True"
+                    NewButtonAlignment="Last"
+                    DefaultContextMenuItemVisibility="Hidden"
+                    EnableLabelEdit="False">
+                    <syncfusion:TabControlExt.NewTabButtonTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Background="Transparent"
+                                FontSize="18"
+                                TextAlignment="Center"
+                                Width="40" Height="30"
+                                Text=" + " />
+                        </DataTemplate>
+                    </syncfusion:TabControlExt.NewTabButtonTemplate>
+                    <syncfusion:TabItemExt
+                        Image="../Assets/home-button.ico"
+                        ImageWidth="20"
+                        ImageHeight="20"
+                        HorizontalAlignment="Center"
+                        Height="30"
+                        Width="35"
+                        Header=""
+                        CloseButtonState="Collapsed"
+                        CanClose="False">
+                        <local:DashboardView />
+                    </syncfusion:TabItemExt>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger  EventName="NewButtonClick">
+                            <i:InvokeCommandAction Command="{Binding HelpCommand}"  CommandParameter="{Binding ElementName=myTabControlExt}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </syncfusion:TabControlExt>
+            </Grid>
+        </local:MyObservableCollection>
+    </syncfusion:ChromelessWindow.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Unloaded">
+            <i:InvokeCommandAction Command="{Binding UnloadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <syncfusion:ChromelessWindow.Content>
+        <Grid>
+            <Frame  x:Name="shellFrame" NavigationUIVisibility="Hidden" />
+        </Grid>
+    </syncfusion:ChromelessWindow.Content>
+</syncfusion:ChromelessWindow>
